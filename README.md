@@ -24,7 +24,7 @@ python3 manage.py createsuperuser
 Run a development server.
 
 ```bash
-python3 manage.py runserver.
+python3 manage.py runserver
 ```
 
 Open [this link](http://127.0.0.1:8000/admin/) in a browser and login in Django admin panel and create few links.
