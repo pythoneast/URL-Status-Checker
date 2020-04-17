@@ -27,5 +27,6 @@ Run a development server.
 python3 manage.py runserver
 ```
 
-Open [this link](http://127.0.0.1:8000/admin/) in a browser and login in Django admin panel and create few links.
+Open [this link](http://127.0.0.1:8000/admin/) in your browser and login in Django admin panel and create few links.
+
 After that go to [user list page](http://127.0.0.1:8000/urls/) and test status of your urls.
