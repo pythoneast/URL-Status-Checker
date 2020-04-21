@@ -1,77 +1,77 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="{%  static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>URL Status Checker</title>
-  </head>
-  <body>
-    <div class="container">
-        <div class="row py-5">
-            <div class="col-sm-10 col-sm-offset-1 text-center">
-                <h1>URL Status Checker</h1>
-            </div>
-        </div>
-        <div class="row">
-            <table class="table table-striped table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">URL</th>
-                    <th scope="col">Status code</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for url in urls %}
-                    <tr id="{{ url.id }}">
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{ url.url }}</td>
-                        <td id="status-code-{{ url.id }}">-</td>
-                    </tr>
-                {% empty %}
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="{%  static 'images/favicon.ico' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>URL Status Checker</title>
+</head>
+<body>
+<div class="container">
+  <div class="row py-5">
+    <div class="col-sm-10 col-sm-offset-1 text-center">
+      <h1>URL Status Checker</h1>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-        function checkUrlStatus(){
-            const errorMessages = {
-                0: 'Connection error',
-                1: 'HTTP error',
-                2: 'Timeout',
-                3: 'Too Many Redirects',
-                4: 'The server is unavailable',
-            };
-            $.ajax({
-                url: '{% url "urls:check-url" %}',
-                type: 'get',
-                success: function(response){
-                    jQuery.each(response.results, function(name, value) {
-                        if (value === 200) {
-                            $('#'.concat(name)).css('background', 'green');
-                            $('#status-code-'.concat(name)).html(value);
-                        } else if (value in errorMessages) {
-                            $('#'.concat(name)).css('background', 'red');
-                            $('#status-code-'.concat(name)).html(errorMessages[value]);
-                        } else {
-                            $('#'.concat(name)).css('background', 'red');
-                            $('#status-code-'.concat(name)).html(value);
-                        }
-                    });
-                }
-            });
-            setTimeout(checkUrlStatus, 10000);
-        }
-        $(document).ready(function(){
-            checkUrlStatus();
+  </div>
+  <div class="row">
+    <table class="table table-striped table-dark">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">URL</th>
+        <th scope="col">Status code</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for url in urls %}
+        <tr id="{{ url.id }}">
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ url.url }}</td>
+          <td id="status-code-{{ url.id }}">-</td>
+        </tr>
+      {% empty %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+  function checkUrlStatus(){
+    const errorMessages = {
+      0: 'Connection error',
+      1: 'HTTP error',
+      2: 'Timeout',
+      3: 'Too Many Redirects',
+      4: 'The server is unavailable',
+    };
+    $.ajax({
+      url: '{% url "urls:check-url" %}',
+      type: 'get',
+      success: function(response){
+        jQuery.each(response.results, function(name, value) {
+          if (value === 200) {
+            $('#'.concat(name)).css('background', 'green');
+            $('#status-code-'.concat(name)).html(value);
+          } else if (value in errorMessages) {
+            $('#'.concat(name)).css('background', 'red');
+            $('#status-code-'.concat(name)).html(errorMessages[value]);
+          } else {
+            $('#'.concat(name)).css('background', 'red');
+            $('#status-code-'.concat(name)).html(value);
+          }
         });
-    </script>
-  </body>
+      }
+    });
+    setTimeout(checkUrlStatus, 5000);
+  }
+  $(document).ready(function(){
+    setTimeout(checkUrlStatus, 5000);
+  });
+</script>
+</body>
 </html>
