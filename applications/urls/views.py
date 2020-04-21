@@ -23,6 +23,14 @@ def check_url_status_view(request):
             url_status = response.status_code
         except requests.exceptions.ConnectionError:
             url_status = 0  # for connection error case
+        except requests.exceptions.HTTPError:
+            url_status = 1  # for HTTP error case
+        except requests.exceptions.Timeout:
+            url_status = 2  # for Timeout case
+        except requests.exceptions.TooManyRedirects:
+            url_status = 3  # for TooManyRedirects case
+        except requests.exceptions.RequestException:
+            url_status = 4  # RequestException is a superclass of other exception classes
 
         return url_id, url_status
 

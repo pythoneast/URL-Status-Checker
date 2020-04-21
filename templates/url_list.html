@@ -42,27 +42,35 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
         function checkUrlStatus(){
+            const errorMessages = {
+                0: 'Connection error',
+                1: 'HTTP error',
+                2: 'Timeout',
+                3: 'Too Many Redirects',
+                4: 'The server is unavailable',
+            };
             $.ajax({
                 url: '{% url "urls:check-url" %}',
                 type: 'get',
                 success: function(response){
                     jQuery.each(response.results, function(name, value) {
                         if (value === 200) {
-                            $('#'.concat(name)).css("background", "green");
+                            $('#'.concat(name)).css('background', 'green');
                             $('#status-code-'.concat(name)).html(value);
-                        } else if (value === 0) {
-                            $('#'.concat(name)).css("background", "red");
-                            $('#status-code-'.concat(name)).html("Connection error");
+                        } else if (value in errorMessages) {
+                            $('#'.concat(name)).css('background', 'red');
+                            $('#status-code-'.concat(name)).html(errorMessages[value]);
                         } else {
-                            $('#'.concat(name)).css("background", "red");
+                            $('#'.concat(name)).css('background', 'red');
                             $('#status-code-'.concat(name)).html(value);
                         }
                     });
                 }
             });
+            setTimeout(checkUrlStatus, 10000);
         }
         $(document).ready(function(){
-            setInterval(checkUrlStatus, 10000); //every 10 seconds
+            checkUrlStatus();
         });
     </script>
   </body>
